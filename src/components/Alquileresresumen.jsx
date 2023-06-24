@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 const Alquileresresumen = (props) => {
   const [data, setData] = useState([]);
@@ -44,53 +45,86 @@ const Alquileresresumen = (props) => {
 
   return (
     <>
-      <div className="content-wrapper">
+      <div className="content-wrapper pt-5">
         <div className="container">
           <h1 className="mx-auto text-center">Todos nuestros alquileres</h1>
-          {estadodata ? <>
-            <div className="table-responsive">
-            <table className="table">
-              <>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Vehiculo</th>
-                    <th>Fecha inicio</th>
-                    <th>Fecha fin</th>
-                    <th>Dias de alquiler</th>
-                    <th>Precio final</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((alquileres, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{alquileres.nombres}</td>
-                      <td>{alquileres.apellidos}</td>
-                      <td>{alquileres.vehiculo.placa}</td>
-                      <td>{alquileres.fechainicio.slice(0, 10)}</td>
-                      <td>{alquileres.fechafin.slice(0, 10)}</td>
-                      <td>{alquileres.diasalquiler}</td>
-                      <td>${alquileres.preciofinal}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan="7" className="text-end">
-                      <b>Total:</b>
-                    </td>
-                    <td>
-                      <b>${totalPrecioFinal}</b>
-                    </td>
-                  </tr>
-                </tfoot>
-              </>
-            </table>
-          </div>
-          </>:<p>cargando...</p>}
+          {estadodata ? (
+            <>
+              <div className="table-responsive mt-5">
+                <table className="table">
+                  <>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Codigo alquiler</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Vehiculo</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Dias</th>
+                        <th>Estado</th>
+                        <th>Precio final</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.map((alquileres, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{alquileres.codigoalquiler}</td>
+                          <td>{alquileres.nombres}</td>
+                          <td>{alquileres.apellidos}</td>
+                          <td>{alquileres.vehiculo.placa}</td>
+                          <td>
+                            {new Date(
+                              alquileres.fechainicio
+                            ).toLocaleDateString("es-ES")}
+                          </td>
+                          <td>
+                            {new Date(alquileres.fechafin).toLocaleDateString(
+                              "es-ES"
+                            )}
+                          </td>
+                          <td>{alquileres.diasalquiler}</td>
+                          <td>
+                            <div>
+                              <span
+                                className={
+                                  alquileres.estadoatencion.nombre === "Nuevo"
+                                    ? "rojo"
+                                    : alquileres.estadoatencion.nombre ===
+                                      "Tratando"
+                                    ? "naranja"
+                                    : "verde"
+                                }
+                              >
+                                {alquileres.estadoatencion.nombre}
+                              </span>
+                            </div>
+                          </td>
+                          <td>${alquileres.preciofinal}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="9" className="text-end">
+                          <b>Total:</b>
+                        </td>
+                        <td>
+                          <b>${totalPrecioFinal}</b>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </>
+                </table>
+              </div>
+            </>
+          ) : (
+            <>
+              <Spinner />
+            </>
+          )}
         </div>
       </div>
     </>

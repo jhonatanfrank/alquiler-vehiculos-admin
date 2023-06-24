@@ -5,6 +5,7 @@ import Aside from "./components/Aside";
 import Resumen from "./components/Resumen";
 import Alquilerresumen from "./components/Alquileresresumen";
 import Vehiculos from "./components/Vehiculos";
+import Contactanos from "./components/Contactanos";
 
 import "../src/App.css";
 
@@ -68,7 +69,7 @@ const App = () => {
         {estado ? (
           <>
             <Header handleLogout={handleLogout} />
-            <Aside />
+            <Aside username={username} />
             <Routes>
               <Route
                 path="/"
@@ -83,6 +84,10 @@ const App = () => {
               <Route
                 path="/mantenimiento-vehiculos"
                 element={<Vehiculos username={username} password={password} />}
+              />
+              <Route
+                path="/contactanos"
+                element={<Contactanos username={username} password={password} />}
               />
             </Routes>
           </>
